@@ -9,7 +9,7 @@
 import UIKit
 import MobileCoreServices
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var albumsBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var cameraBarButtonItem: UIBarButtonItem!
@@ -19,7 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imagePickerView: UIImageView!
     
     var memeImage : UIImage!
-    
+    var delegate = TextFieldDelegate()
 
     var meme : Meme?
     var picker: UIImagePickerController?
@@ -41,14 +41,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel:"))
         
         self.navigationController?.toolbarHidden = false
-//        
+        
         let font: UIFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
         let memeTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSStrokeColorAttributeName: UIColor.blackColor(), NSFontAttributeName : font, NSStrokeWidthAttributeName:2]
         
-        self.topTextField.delegate = self
+        self.topTextField.delegate = self.delegate
         self.topTextField.defaultTextAttributes = memeTextAttributes
         self.topTextField.textAlignment = .Center
-        self.bottomTextField.delegate = self
+        self.bottomTextField.delegate = self.delegate
         self.bottomTextField.defaultTextAttributes = memeTextAttributes
         self.bottomTextField.textAlignment = .Center
         self.bottomTextField.resignFirstResponder()
@@ -95,7 +95,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //MARK: Top Bar
     
     func share(sender: UIBarButtonItem) {
-        //TODO: Activity Controller
         memeImage = generateMemedImage()
         let controller = UIActivityViewController(activityItems:[memeImage!], applicationActivities: nil)
         self.presentViewController(controller, animated: true, completion: nil)
@@ -178,21 +177,5 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
     }
-    
-    //MARK: Textfield Delegate
-    func textFieldDidBeginEditing(textField: UITextField) {
-        textField.placeholder = nil
-    }
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-        textField.placeholder = ""
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    
 }
 
