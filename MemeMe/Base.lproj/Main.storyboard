@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eCn-mm-Y1X">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eCn-mm-Y1X">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,25 +18,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cMD-pT-aZt">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cMD-pT-aZt">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oSo-MZ-Bmi">
-                                <rect key="frame" x="252" y="72" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Sqa-FH-4Wz">
+                                <rect key="frame" x="20" y="466" width="560" height="50"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ofC-wC-yla"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="40"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sqa-FH-4Wz">
-                                <rect key="frame" x="252" y="518" width="97" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="oSo-MZ-Bmi">
+                                <rect key="frame" x="20" y="99" width="560" height="50"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="mLd-RE-gpr"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="40"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oSo-MZ-Bmi" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="39H-I6-T5s"/>
+                            <constraint firstItem="oSo-MZ-Bmi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="9O6-FV-TlA"/>
+                            <constraint firstItem="Sqa-FH-4Wz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Kh5-SX-F3c"/>
+                            <constraint firstItem="oSo-MZ-Bmi" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="35" id="Sz8-Yh-vAu"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Sqa-FH-4Wz" secondAttribute="bottom" constant="40" id="XuO-nJ-G1y"/>
+                            <constraint firstItem="cMD-pT-aZt" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="ZhQ-g0-WCy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cMD-pT-aZt" secondAttribute="trailing" constant="-20" id="hbt-0B-ocI"/>
+                            <constraint firstItem="cMD-pT-aZt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="jPh-f7-659"/>
+                            <constraint firstItem="Sqa-FH-4Wz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pn4-ed-mTh"/>
+                            <constraint firstItem="cMD-pT-aZt" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="xEs-eq-b0U"/>
+                            <constraint firstItem="Sqa-FH-4Wz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y2P-I2-RAS"/>
+                            <constraint firstItem="oSo-MZ-Bmi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z82-dx-Aub"/>
+                        </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Siq-IN-zKa"/>
@@ -55,12 +79,15 @@
                     <navigationItem key="navigationItem" id="Ehn-sF-1Lf"/>
                     <connections>
                         <outlet property="albumsBarButtonItem" destination="ief-CA-ujG" id="rk2-tG-j5g"/>
+                        <outlet property="bottomTextField" destination="Sqa-FH-4Wz" id="tf2-ZN-SvX"/>
                         <outlet property="cameraBarButtonItem" destination="ANR-fj-caN" id="ViX-nM-MRD"/>
+                        <outlet property="imagePickerView" destination="cMD-pT-aZt" id="IVk-og-XN6"/>
+                        <outlet property="topTextField" destination="oSo-MZ-Bmi" id="8sP-c2-Sir"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="481" y="438"/>
+            <point key="canvasLocation" x="480" y="438"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="agN-2p-z0R">
