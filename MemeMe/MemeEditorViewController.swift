@@ -9,7 +9,7 @@
 import UIKit
 import MobileCoreServices
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var albumsBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var cameraBarButtonItem: UIBarButtonItem!
@@ -27,32 +27,34 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: View Controller
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.subscribeToKeyboardNotifications()
+        subscribeToKeyboardNotifications()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.unsubscribeToKeyboardNotifications()
+        unsubscribeToKeyboardNotifications()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: Selector("share:"))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel:"))
+        cameraBarButtonItem.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
-        self.navigationController?.toolbarHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: Selector("share:"))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel:"))
+        
+        navigationController?.toolbarHidden = false
         
         let font: UIFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
         let memeTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSStrokeColorAttributeName: UIColor.blackColor(), NSFontAttributeName : font, NSStrokeWidthAttributeName:2]
         
-        self.topTextField.delegate = self.delegate
-        self.topTextField.defaultTextAttributes = memeTextAttributes
-        self.topTextField.textAlignment = .Center
-        self.bottomTextField.delegate = self.delegate
-        self.bottomTextField.defaultTextAttributes = memeTextAttributes
-        self.bottomTextField.textAlignment = .Center
-        self.bottomTextField.resignFirstResponder()
-        self.topTextField.resignFirstResponder()
+        topTextField.delegate = delegate
+        topTextField.defaultTextAttributes = memeTextAttributes
+        topTextField.textAlignment = .Center
+        bottomTextField.delegate = delegate
+        bottomTextField.defaultTextAttributes = memeTextAttributes
+        bottomTextField.textAlignment = .Center
+        bottomTextField.resignFirstResponder()
+        topTextField.resignFirstResponder()
     }
     
     
@@ -65,17 +67,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        if self.bottomTextField.isFirstResponder() {
-            self.view.frame.origin.y -= getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder() {
+            view.frame.origin.y -= getKeyboardHeight(notification)
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if self.bottomTextField.isFirstResponder() {
-            self.view.frame.origin.y += getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder() {
+            view.frame.origin.y += getKeyboardHeight(notification)
         }
         else {
-            self.topTextField.resignFirstResponder()
+            topTextField.resignFirstResponder()
         }
     }
     
@@ -97,7 +99,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func share(sender: UIBarButtonItem) {
         memeImage = generateMemedImage()
         let controller = UIActivityViewController(activityItems:[memeImage!], applicationActivities: nil)
-        self.presentViewController(controller, animated: true, completion: nil)
+        presentViewController(controller, animated: true, completion: nil)
         
         controller.completionWithItemsHandler = {
             (activity: String?, completed: Bool, items: [AnyObject]?, error: NSError?) -> Void in
@@ -114,29 +116,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //MARK: Meme
     func save() {
-        let meme = Meme( topText: self.topTextField.text!, bottomText: self.bottomTextField.text!, initalImage:
-            self.imagePickerView.image!, editedImage: memeImage)
+        let meme = Meme( topText: topTextField.text!, bottomText: bottomTextField.text!, initalImage:
+            imagePickerView.image!, editedImage: memeImage)
     }
     
     func generateMemedImage() -> UIImage
     {
         // TODO: Hide toolbar and navbar
         
-        self.navigationController?.toolbar.hidden = true
-        self.navigationController?.navigationBar.hidden = true
+        navigationController?.toolbar.hidden = true
+        navigationController?.navigationBar.hidden = true
 
         
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        self.view.drawViewHierarchyInRect(self.view.frame,
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.drawViewHierarchyInRect(view.frame,
             afterScreenUpdates: true)
         let memedImage : UIImage =
         UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         // TODO:  Show toolbar and navbar
-        self.navigationController?.toolbar.hidden = false
-        self.navigationController?.navigationBar.hidden = false
+        navigationController?.toolbar.hidden = false
+        navigationController?.navigationBar.hidden = false
 
         return memedImage
     }
@@ -154,16 +156,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     //MARK: Image Picker
     func openPicker(sender: UIBarButtonItem, sourceType: UIImagePickerControllerSourceType) {
-        self.picker = UIImagePickerController()
+        picker = UIImagePickerController()
         
         if(UIImagePickerController.isSourceTypeAvailable(sourceType))
         {
-            self.picker!.sourceType = sourceType
-            self.picker?.delegate = self
-            self.picker!.mediaTypes = [kUTTypeImage as String]
-            self.picker!.allowsEditing = false
+            picker!.sourceType = sourceType
+            picker?.delegate = self
+            picker!.mediaTypes = [kUTTypeImage as String]
+            picker!.allowsEditing = false
             
-            self.presentViewController(self.picker!, animated: true, completion: nil)
+            presentViewController(picker!, animated: true, completion: nil)
         }
     }
     
@@ -171,9 +173,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         print(info.description)
         print("Image")
         if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            self.imagePickerView.image = image
+            imagePickerView.image = image
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            dismissViewControllerAnimated(true, completion: nil)
         }
         
     }
