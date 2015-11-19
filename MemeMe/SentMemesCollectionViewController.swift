@@ -69,7 +69,7 @@ class SentMemesCollectionViewController : UICollectionViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if(segue.identifier == "showDetailFromTable") {
+        if(segue.identifier == "showDetailFromCollection") {
             let vc = segue.destinationViewController as! MemeDetailViewController
             vc.meme = segueMeme
         }
