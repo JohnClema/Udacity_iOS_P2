@@ -44,28 +44,8 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
 //        navigationController?.toolbarHidden = false
         
-        let font: UIFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
-        
-        let memeTextAttributes = [
-            NSStrokeColorAttributeName: UIColor.blackColor(),
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: font,
-            NSStrokeWidthAttributeName : -4.0
-        ]
-        
-        topTextField.delegate = delegate
-        topTextField.defaultTextAttributes = memeTextAttributes
-        topTextField.textColor = UIColor.whiteColor()
-        topTextField.textAlignment = .Center
-        
-        bottomTextField.delegate = delegate
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.textAlignment = .Center
-        bottomTextField.resignFirstResponder()
-        topTextField.resignFirstResponder()
-        
-
-        
+        prepareTextField(topTextField, defaultText: "TOP")
+        prepareTextField(bottomTextField, defaultText: "BOTTOM")
         
         if meme != nil {
             imagePickerView.image = meme?.initalImage
@@ -77,6 +57,20 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
 
     }
     
+    func prepareTextField(textField: UITextField, defaultText: String) {
+        super.viewDidLoad()
+        let memeTextAttributes = [
+            NSStrokeColorAttributeName : UIColor.blackColor(),
+            NSForegroundColorAttributeName : UIColor.whiteColor(),
+            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSStrokeWidthAttributeName : -4.0
+        ]
+        textField.delegate = delegate
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.text = defaultText
+        textField.autocapitalizationType = .AllCharacters
+        textField.textAlignment = .Center
+    }
     
     
     //MARK: Keyboard
@@ -88,13 +82,13 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     func keyboardWillShow(notification: NSNotification) {
         if bottomTextField.isFirstResponder() {
-            view.frame.origin.y -= getKeyboardHeight(notification)
+            view.frame.origin.y = -getKeyboardHeight(notification)
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         if bottomTextField.isFirstResponder() {
-            view.frame.origin.y += getKeyboardHeight(notification)
+            view.frame.origin.y  = 0
         }
         else {
             topTextField.resignFirstResponder()
