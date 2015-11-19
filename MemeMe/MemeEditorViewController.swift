@@ -37,24 +37,34 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cameraBarButtonItem.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: Selector("share:"))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancel:"))
         
-        navigationController?.toolbarHidden = false
+//        navigationController?.toolbarHidden = false
         
         let font: UIFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
-        let memeTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSStrokeColorAttributeName: UIColor.blackColor(), NSFontAttributeName : font, NSStrokeWidthAttributeName:2]
+        
+        let memeTextAttributes = [
+            NSStrokeColorAttributeName: UIColor.blackColor(),
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: font,
+            NSStrokeWidthAttributeName : -4.0
+        ]
         
         topTextField.delegate = delegate
         topTextField.defaultTextAttributes = memeTextAttributes
+        topTextField.textColor = UIColor.whiteColor()
         topTextField.textAlignment = .Center
+        
         bottomTextField.delegate = delegate
         bottomTextField.defaultTextAttributes = memeTextAttributes
         bottomTextField.textAlignment = .Center
         bottomTextField.resignFirstResponder()
         topTextField.resignFirstResponder()
+        
+        cameraBarButtonItem.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
+
     }
     
     
@@ -111,14 +121,22 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func cancel(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func save() {
+        //Create the meme
+        let meme = Meme( topText: topTextField.text!, bottomText: bottomTextField.text!, initalImage:
+            imagePickerView.image!, editedImage: memeImage)
+
         
+        // Add it to the memes array in the Application Delegate
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
     }
     
     //MARK: Meme
-    func save() {
-        let meme = Meme( topText: topTextField.text!, bottomText: bottomTextField.text!, initalImage:
-            imagePickerView.image!, editedImage: memeImage)
-    }
     
     func generateMemedImage() -> UIImage
     {
