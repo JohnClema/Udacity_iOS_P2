@@ -27,6 +27,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // MARK: View Controller
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        cameraBarButtonItem.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         subscribeToKeyboardNotifications()
     }
     
@@ -63,7 +64,16 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         bottomTextField.resignFirstResponder()
         topTextField.resignFirstResponder()
         
-        cameraBarButtonItem.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
+
+        
+        
+        if meme != nil {
+            imagePickerView.image = meme?.initalImage
+            topTextField.placeholder = nil
+            bottomTextField.placeholder = nil
+            topTextField.text = meme?.topText
+            bottomTextField.text = meme?.bottomText
+        }
 
     }
     

@@ -27,4 +27,15 @@ class MemeDetailViewController : UIViewController {
         
     }
     
+    @IBAction func editButtonPressed(sender: AnyObject) {
+        performSegueWithIdentifier("detailToEditor", sender: self)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "detailToEditor" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let editorController = navigationController.topViewController         as! MemeEditorViewController
+            editorController.meme = meme
+        }
+    }
 }
