@@ -11,15 +11,15 @@ import UIKit
 
 class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var memes: [Meme] {
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).memes
+        return (UIApplication.shared.delegate as! AppDelegate).memes
     }
 
     var segueMeme: Meme!
-    var deleteIndex: NSIndexPath!
+    var deleteIndex: IndexPath!
     
     @IBOutlet weak var tableView: UITableView!
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
     }
@@ -27,58 +27,58 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         if memes.count == 0 {
-            performSegueWithIdentifier("presentMemeEditor", sender: self)
+            performSegue(withIdentifier: "presentMemeEditor", sender: self)
         }
         tableView.reloadData()
     }
     
     //MARK: Tableview delegate/datasource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memes.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("memeCell") as! MemeTableViewCell
-        let meme = memes[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "memeCell") as! MemeTableViewCell
+        let meme = memes[(indexPath as NSIndexPath).row]
         cell.memeImageView.image = meme.editedImage
         cell.memeLabel.text = "\(meme.topText) ... \(meme.bottomText)"
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let indexPath = tableView.indexPathForSelectedRow;
-        segueMeme = memes[indexPath!.row]
+        segueMeme = memes[(indexPath! as NSIndexPath).row]
             
         
-        performSegueWithIdentifier("showDetailFromTable", sender: self)
+        performSegue(withIdentifier: "showDetailFromTable", sender: self)
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            (UIApplication.sharedApplication().delegate as! AppDelegate).memes.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            (UIApplication.shared.delegate as! AppDelegate).memes.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if(segue.identifier == "showDetailFromTable") {
-            let vc = segue.destinationViewController as! MemeDetailViewController
+            let vc = segue.destination as! MemeDetailViewController
             vc.meme = segueMeme
         }
         
     }
     
     //MARK: Navigation Buttons
-    @IBAction func editButtonPressed(sender: AnyObject) {
-        editing = tableView.editing ? false : true
-        tableView.setEditing(editing, animated: true)
+    @IBAction func editButtonPressed(_ sender: AnyObject) {
+        isEditing = tableView.isEditing ? false : true
+        tableView.setEditing(isEditing, animated: true)
     }
 
-    @IBAction func addButtonPressed(sender: AnyObject) {
-        performSegueWithIdentifier("presentMemeEditor", sender: self)
+    @IBAction func addButtonPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "presentMemeEditor", sender: self)
     }
     
     

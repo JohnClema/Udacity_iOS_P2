@@ -15,7 +15,7 @@ class MemeDetailViewController : UIViewController {
     
     var meme: Meme!
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         memeImageView.image = meme.editedImage
@@ -27,13 +27,13 @@ class MemeDetailViewController : UIViewController {
         
     }
     
-    @IBAction func editButtonPressed(sender: AnyObject) {
-        performSegueWithIdentifier("detailToEditor", sender: self)
+    @IBAction func editButtonPressed(_ sender: AnyObject) {
+        performSegue(withIdentifier: "detailToEditor", sender: self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailToEditor" {
-            let navigationController = segue.destinationViewController as! UINavigationController
+            let navigationController = segue.destination as! UINavigationController
             let editorController = navigationController.topViewController         as! MemeEditorViewController
             editorController.meme = meme
         }
