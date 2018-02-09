@@ -56,19 +56,23 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     func prepareTextField(_ textField: UITextField, defaultText: String) {
         super.viewDidLoad()
+        let black = UIColor.black
+        let white = UIColor.white
+        let rawFont = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40) as Any
+        let strokeWidth = -4.0
+        
         let memeTextAttributes: [String: Any] = [
-            NSAttributedStringKey.strokeColor.rawValue : UIColor.black,
-            NSAttributedStringKey.foregroundColor.rawValue : UIColor.white,
-            NSAttributedStringKey.font.rawValue : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40),
-            NSAttributedStringKey.strokeWidth.rawValue : -4.0
-            ]
+            NSAttributedStringKey.strokeColor.rawValue : black,
+            NSAttributedStringKey.foregroundColor.rawValue : white,
+            NSAttributedStringKey.font.rawValue : rawFont,
+            NSAttributedStringKey.strokeWidth.rawValue : strokeWidth
+        ]
         textField.delegate = delegate
         textField.defaultTextAttributes = memeTextAttributes
         textField.text = defaultText
         textField.autocapitalizationType = .allCharacters
         textField.textAlignment = .center
     }
-    
     
     //MARK: Keyboard
     func getKeyboardHeight(_ notification: Notification) -> CGFloat {
